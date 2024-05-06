@@ -7,6 +7,7 @@ $product_id = filterPostRequest('id');
 $title = filterPostRequest('title');
 $description = filterPostRequest('description');
 $price = filterPostRequest('price');
+
 $last_image_name = filterPostRequest('last_image_name');
 $image_name = imageupload("image");
 
@@ -19,8 +20,10 @@ if($image_name[0] == "success"){ // there is no image, but we have the image nam
     $image_name[0] = $last_image_name;
 }
 else { // ther is new image, 1- delete last
-    if(file_exists("../assets/images/".$last_image_name)) {
-        deleteFile("../assets/images", $last_image_name);
+    if($last_image_name){
+        if(file_exists("../assets/images/".$last_image_name)) {
+            deleteFile("../assets/images", $last_image_name);
+        }
     }
 }
 
@@ -34,7 +37,7 @@ if($count > 0){
     echo json_encode(array("status" => "success", "message" => "edited successfully"));
 }
 else{
-    echo json_encode(array("status" => "fail", "message" => "check info !"));
+    echo json_encode(array("status" => "fail", "message" => "nothing to update!"));
 }
 
 ?>
